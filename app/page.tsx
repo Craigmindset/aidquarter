@@ -16,7 +16,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-green-50 to-blue-50 py-20 lg:py-32">
+      <section className="relative bg-gradient-to-br from-green-50 to-blue-50 py-20 lg:py-15">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -24,14 +24,14 @@ export default function HomePage() {
                 <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                   Trusted by 700+ Families
                 </Badge>
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight">
                   Find Vetted Household Staff in
                   <span className="text-green-600"> Minutes</span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  Connect with pre-screened, professional housekeepers, nannies,
-                  and drivers. Quality service recruitment made simple and
-                  secure.
+                  Connect with pre-vetted, professional caregivers,
+                  housekeepers, nannies, and drivers. Simple, secure, and
+                  focused on quality.
                 </p>
               </div>
 
@@ -98,7 +98,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-4 gap-8">
             <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardContent className="p-8 text-center">
                 <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -166,6 +166,31 @@ export default function HomePage() {
                 </p>
                 <Button asChild variant="outline" className="w-full">
                   <Link href="/find-aid?service=driver">Find Drivers</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardContent className="p-8 text-center">
+                <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Image
+                    src="/placeholder.svg?height=32&width=32"
+                    alt="Care Giver"
+                    width={32}
+                    height={32}
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                  Care Giver
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Compassionate, professional care for elderly and patients with
+                  dedicated support
+                </p>
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/find-aid?service=caregiver">
+                    Find Care Giver
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
