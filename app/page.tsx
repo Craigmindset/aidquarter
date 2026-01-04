@@ -24,14 +24,13 @@ export default function HomePage() {
                 <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                   Trusted by 700+ Families
                 </Badge>
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight">
+                <h1 className="text-4xl lg:text-6xl  font-extrabold md:font-bold text-gray-900 leading-tight tracking-tight">
                   Find Vetted Household Staff in
                   <span className="text-green-600"> Minutes</span>
                 </h1>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Connect with pre-vetted, professional caregivers,
-                  housekeepers, nannies, and drivers. Simple, secure, and
-                  focused on quality.
+                <p className="text-lg md:text-xl text-gray-600 leading-relaxed md:leading-relaxed text-balance">
+                  Connect with our vetted professionals, housekeepers, nannies,
+                  and drivers. Simple, secure, and focused on quality.
                 </p>
               </div>
 
