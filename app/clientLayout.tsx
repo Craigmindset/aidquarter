@@ -15,12 +15,15 @@ export default function ClientLayout({
   const pathname = usePathname();
   const isDashboard = pathname?.startsWith("/dashboard");
   const isLogin = pathname?.startsWith("/login");
+  const isSignup = pathname?.startsWith("/signup");
+  const isAuthPage = isLogin || isSignup;
+
   return (
     <body className="font-sans">
-      {!isDashboard && <Header />}
+      {!isDashboard && !isSignup && <Header />}
       <main>{children}</main>
-      {!isDashboard && !isLogin && <Footer />}
-      {!isLogin && <ChatBox />}
+      {!isDashboard && !isAuthPage && <Footer />}
+      {!isAuthPage && <ChatBox />}
     </body>
   );
 }

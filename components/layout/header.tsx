@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, LogOut } from "lucide-react";
+import { Menu, LogOut, LogIn, UserPlus } from "lucide-react";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -125,11 +125,11 @@ export function Header() {
               </Button>
             ) : (
               <>
-                <Button asChild variant="ghost">
-                  <Link href="/login">Login</Link>
-                </Button>
                 <Button asChild className="bg-green-600 hover:bg-green-700">
-                  <Link href="/recruit">Recruit</Link>
+                  <Link href="/login">
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    Login / Sign Up
+                  </Link>
                 </Button>
               </>
             )}
@@ -263,14 +263,20 @@ export function Header() {
                         variant="outline"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        <Link href="/login">Login</Link>
+                        <Link href="/login">
+                          <LogIn className="h-4 w-4 mr-2" />
+                          Login
+                        </Link>
                       </Button>
                       <Button
                         asChild
                         className="bg-green-600 hover:bg-green-700"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        <Link href="/recruit">Recruit</Link>
+                        <Link href="/signup">
+                          <UserPlus className="h-4 w-4 mr-2" />
+                          Sign Up
+                        </Link>
                       </Button>
                     </div>
                   )}
