@@ -5,6 +5,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import ChatBox from "@/components/chatbox";
+import { ThemeProvider } from "@/components/theme-provider";
 import { usePathname } from "next/navigation";
 
 export default function ClientLayout({
@@ -20,10 +21,17 @@ export default function ClientLayout({
 
   return (
     <body className="font-sans">
-      {!isDashboard && !isSignup && <Header />}
-      <main>{children}</main>
-      {!isDashboard && !isAuthPage && <Footer />}
-      {!isAuthPage && <ChatBox />}
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {!isDashboard && !isSignup && <Header />}
+        <main>{children}</main>
+        {!isDashboard && !isAuthPage && <Footer />}
+        {!isAuthPage && <ChatBox />}
+      </ThemeProvider>
     </body>
   );
 }

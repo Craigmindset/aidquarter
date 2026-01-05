@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, LogOut, LogIn, UserPlus } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -115,14 +116,17 @@ export function Header() {
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             {isDashboard ? (
-              <Button
-                onClick={handleLogout}
-                variant="ghost"
-                className="text-red-600 hover:text-red-700 hover:bg-red-50"
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
+              <>
+                <ThemeToggle />
+                <Button
+                  onClick={handleLogout}
+                  variant="ghost"
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </>
             ) : (
               <>
                 <Button asChild className="bg-green-600 hover:bg-green-700">

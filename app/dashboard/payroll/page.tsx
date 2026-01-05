@@ -1,10 +1,17 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { CreditCard, Download, Filter, Search } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { CreditCard, Download, Filter, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export default function PayrollPage() {
   const employees = [
@@ -35,7 +42,7 @@ export default function PayrollPage() {
       lastPaid: "2024-11-01",
       status: "Pending",
     },
-  ]
+  ];
 
   const paymentHistory = [
     {
@@ -78,19 +85,28 @@ export default function PayrollPage() {
       status: "Paid",
       method: "Bank Transfer",
     },
-  ]
+  ];
 
-  const totalMonthlyPayroll = employees.reduce((sum, emp) => sum + emp.salary, 0)
-  const pendingPayments = employees.filter((emp) => emp.status === "Pending").length
+  const totalMonthlyPayroll = employees.reduce(
+    (sum, emp) => sum + emp.salary,
+    0
+  );
+  const pendingPayments = employees.filter(
+    (emp) => emp.status === "Pending"
+  ).length;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Payroll Management</h1>
-          <p className="text-gray-600">Manage staff payments and view payment history</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Payroll Management
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Manage staff payments and view payment history
+          </p>
         </div>
-        <Button className="bg-green-600 hover:bg-green-700">
+        <Button className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800">
           <CreditCard className="h-4 w-4 mr-2" />
           Pay All Staff
         </Button>
@@ -98,49 +114,71 @@ export default function PayrollPage() {
 
       {/* Payroll Summary */}
       <div className="grid md:grid-cols-3 gap-6">
-        <Card>
+        <Card className="dark:bg-gray-800 dark:border-gray-700">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Monthly Payroll</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Monthly Payroll
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">₦{totalMonthlyPayroll.toLocaleString()}</div>
-            <p className="text-xs text-gray-500">Total for {employees.length} employees</p>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              ₦{totalMonthlyPayroll.toLocaleString()}
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Total for {employees.length} employees
+            </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="dark:bg-gray-800 dark:border-gray-700">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Pending Payments</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Pending Payments
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">{pendingPayments}</div>
-            <p className="text-xs text-gray-500">Payments due</p>
+            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+              {pendingPayments}
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Payments due
+            </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="dark:bg-gray-800 dark:border-gray-700">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Next Payment Date</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Next Payment Date
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">Jan 1</div>
-            <p className="text-xs text-gray-500">2025</p>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              Jan 1
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">2025</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Current Staff Payments */}
-      <Card>
+      <Card className="dark:bg-gray-800 dark:border-gray-700">
         <CardHeader>
-          <CardTitle>Current Staff</CardTitle>
+          <CardTitle className="dark:text-white">Current Staff</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {employees.map((employee) => (
-              <div key={employee.id} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={employee.id}
+                className="flex items-center justify-between p-4 border dark:border-gray-700 rounded-lg"
+              >
                 <div className="flex items-center space-x-4">
                   <Avatar>
-                    <AvatarImage src={employee.image || "/placeholder.svg"} alt={employee.name} />
+                    <AvatarImage
+                      src={employee.image || "/placeholder.svg"}
+                      alt={employee.name}
+                    />
                     <AvatarFallback>
                       {employee.name
                         .split(" ")
@@ -149,28 +187,40 @@ export default function PayrollPage() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium text-gray-900">{employee.name}</p>
-                    <p className="text-sm text-gray-600">{employee.position}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      {employee.name}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {employee.position}
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
                   <div className="text-right">
-                    <p className="font-medium text-gray-900">₦{employee.salary.toLocaleString()}</p>
-                    <p className="text-sm text-gray-600">Monthly salary</p>
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      ₦{employee.salary.toLocaleString()}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Monthly salary
+                    </p>
                   </div>
 
                   <Badge
                     className={
                       employee.status === "Paid"
-                        ? "bg-green-100 text-green-800 hover:bg-green-100"
-                        : "bg-orange-100 text-orange-800 hover:bg-orange-100"
+                        ? "bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900 dark:text-green-300"
+                        : "bg-orange-100 text-orange-800 hover:bg-orange-100 dark:bg-orange-900 dark:text-orange-300"
                     }
                   >
                     {employee.status}
                   </Badge>
 
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700" disabled={employee.status === "Paid"}>
+                  <Button
+                    size="sm"
+                    className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800"
+                    disabled={employee.status === "Paid"}
+                  >
                     {employee.status === "Paid" ? "Paid" : "Pay Now"}
                   </Button>
                 </div>
@@ -181,19 +231,30 @@ export default function PayrollPage() {
       </Card>
 
       {/* Payment History */}
-      <Card>
+      <Card className="dark:bg-gray-800 dark:border-gray-700">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Payment History</CardTitle>
+            <CardTitle className="dark:text-white">Payment History</CardTitle>
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input placeholder="Search payments..." className="pl-10 w-64" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                <Input
+                  placeholder="Search payments..."
+                  className="pl-10 w-64 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+                />
               </div>
-              <Button variant="outline" size="icon">
+              <Button
+                variant="outline"
+                size="icon"
+                className="dark:border-gray-700 dark:hover:bg-gray-700"
+              >
                 <Filter className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon">
+              <Button
+                variant="outline"
+                size="icon"
+                className="dark:border-gray-700 dark:hover:bg-gray-700"
+              >
                 <Download className="h-4 w-4" />
               </Button>
             </div>
@@ -202,23 +263,35 @@ export default function PayrollPage() {
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Staff Name</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Payment Date</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead>Status</TableHead>
+              <TableRow className="dark:border-gray-700">
+                <TableHead className="dark:text-gray-400">Staff Name</TableHead>
+                <TableHead className="dark:text-gray-400">Amount</TableHead>
+                <TableHead className="dark:text-gray-400">
+                  Payment Date
+                </TableHead>
+                <TableHead className="dark:text-gray-400">Method</TableHead>
+                <TableHead className="dark:text-gray-400">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {paymentHistory.map((payment) => (
-                <TableRow key={payment.id}>
-                  <TableCell className="font-medium">{payment.staffName}</TableCell>
-                  <TableCell>₦{payment.amount.toLocaleString()}</TableCell>
-                  <TableCell>{new Date(payment.paymentDate).toLocaleDateString()}</TableCell>
-                  <TableCell>{payment.method}</TableCell>
+                <TableRow key={payment.id} className="dark:border-gray-700">
+                  <TableCell className="font-medium dark:text-white">
+                    {payment.staffName}
+                  </TableCell>
+                  <TableCell className="dark:text-gray-300">
+                    ₦{payment.amount.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="dark:text-gray-300">
+                    {new Date(payment.paymentDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell className="dark:text-gray-300">
+                    {payment.method}
+                  </TableCell>
                   <TableCell>
-                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100">{payment.status}</Badge>
+                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900 dark:text-green-300">
+                      {payment.status}
+                    </Badge>
                   </TableCell>
                 </TableRow>
               ))}
@@ -227,5 +300,5 @@ export default function PayrollPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
