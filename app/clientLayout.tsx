@@ -23,8 +23,7 @@ export default function ClientLayout({
     <body className="font-sans">
       <ThemeProvider
         attribute="class"
-        defaultTheme="system"
-        enableSystem
+        defaultTheme="light"
         disableTransitionOnChange
       >
         {!isDashboard && !isSignup && <Header />}
