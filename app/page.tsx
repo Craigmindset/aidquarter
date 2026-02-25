@@ -40,15 +40,14 @@ export default function HomePage() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h1 className="text-4xl lg:text-5xl  font-extrabold md:font-bold text-gray-900 leading-tight tracking-tight">
-                  Join Our Team <br />
-                  of Vetted Professionals
-                  <span className="text-red-600"> In Minutes</span>
+                  Find Vetted <br /> Household Staff in
+                  <span className="text-red-600"> Minutes</span>
                 </h1>
                 <p className="text-m md:text-lg text-gray-600 leading-relaxed md:leading-normal text-justify md:text-start ">
-                  Connect with families across Nigeria. Simple, secure, and
-                  focused on your success as a household professional. Join a
-                  community that values your work, supports your journey, and
-                  connects you to families who truly appreciate what you do.
+                  Connect with our vetted professionals; trusted housekeepers,
+                  caring nannies, and reliable drivers. Enjoy a simple, secure
+                  hiring process designed to give you peace of mind, save you
+                  time, and guarantee quality service for your home and family.
                 </p>
               </div>
 
@@ -86,7 +85,7 @@ export default function HomePage() {
 
             <div className="relative">
               <Image
-                src="recruit-hero.png"
+                src="aidquarter-hero.png"
                 alt="Professional household staff"
                 width={400}
                 height={400}
