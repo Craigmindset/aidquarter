@@ -8,6 +8,8 @@ import { MapPin, DollarSign, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+const CACHE_KEY = "find-aid:workers:v1";
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 type Worker = {
   id: string | number;
@@ -40,6 +42,7 @@ export default function FindAidPage() {
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState<string | null>(null);
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [positionDropdownOpen, setPositionDropdownOpen] = useState(false);
@@ -50,8 +53,22 @@ export default function FindAidPage() {
   useEffect(() => {
     let isMounted = true;
     async function fetchWorkers() {
-      setLoading(true);
       setError(null);
+      let hadCache = false;
+      if (typeof window !== "undefined") {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw) as { ts: number; data: Worker[] };
+            if (Date.now() - parsed.ts < CACHE_TTL_MS) {
+              setWorkers(parsed.data);
+              setLoading(false);
+              hadCache = true;
+            }
+          } catch {}
+        }
+      }
+      setRefreshing(true);
       const baseSelect =
         "user_id, first_name, last_name, status, role, salary_range, state, preferred_work_location, rating, experience, profile_image, verified";
       let resultData: StaffProfileRow[] | null = null;
@@ -111,8 +128,17 @@ export default function FindAidPage() {
           experience: row.experience ?? "",
         })) ?? [];
       setWorkers(mapped);
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem(
+            CACHE_KEY,
+            JSON.stringify({ ts: Date.now(), data: mapped }),
+          );
+        } catch {}
+      }
       setError(errMsg && mapped.length === 0 ? errMsg : null);
-      setLoading(false);
+      setRefreshing(false);
+      if (!hadCache) setLoading(false);
     }
     fetchWorkers();
     return () => {
@@ -273,7 +299,12 @@ export default function FindAidPage() {
               <p className="text-red-600">Failed to load workers: {error}</p>
             ) : (
               <p className="text-gray-600">
-                Showing {filteredWorkers.length} verified professionals
+                Showing {filteredWorkers.length} verified professionals{" "}
+                {refreshing && (
+                  <span className="ml-2 text-sm text-gray-500">
+                    (refreshing…)
+                  </span>
+                )}
               </p>
             )}
           </div>
