@@ -97,9 +97,7 @@ export default function FindAidPage() {
       const mapped: Worker[] =
         (resultData as StaffProfileRow[] | null)?.map((row) => ({
           id: row.user_id,
-          name:
-            `${row.first_name ?? ""} ${row.last_name ?? ""}`.trim() ||
-            "Unnamed",
+          name: (row.first_name ?? "").trim() || "Unnamed",
           image: row.profile_image ?? "/placeholder.svg?height=200&width=200",
           status: row.status ?? "Available to work",
           position: row.role ?? "",
