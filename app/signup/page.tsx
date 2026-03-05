@@ -17,10 +17,11 @@ import {
 import { Eye, EyeOff, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import bcrypt from "bcryptjs";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SignupPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -84,11 +85,6 @@ export default function SignupPage() {
     }
   };
 
-  const hashPassword = async (password: string): Promise<string> => {
-    const salt = await bcrypt.genSalt(10);
-    return bcrypt.hash(password, salt);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -98,42 +94,60 @@ export default function SignupPage() {
     setError("");
 
     try {
-      // Format phone number with +234 prefix
       const formattedPhone = `+234${formData.phone}`;
 
-      // Hash password (in production, use proper bcrypt library)
-      const hashedPassword = await hashPassword(formData.password);
-
-      // Insert into client_profile table
-      const { data, error: supabaseError } = await supabase
-        .from("client_profile")
-        .insert({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
+      // Create a Supabase Auth user (will send verification email if enabled)
+      const { data: signUpData, error: signUpError } =
+        await supabase.auth.signUp({
           email: formData.email,
-          phone: formattedPhone,
-          state: formData.state,
-          password_hash: hashedPassword,
-          email_verified: false,
-        })
-        .select();
+          password: formData.password,
+          options: {
+            data: {
+              first_name: formData.firstName,
+              last_name: formData.lastName,
+              phone_number: formattedPhone,
+              state: formData.state,
+            },
+          },
+        });
 
-      if (supabaseError) {
-        // Check for specific error types
-        if (supabaseError.message.includes("duplicate")) {
-          setError("This email is already registered. Please login instead.");
-        } else {
-          setError(
-            supabaseError.message ||
-              "Failed to create account. Please try again.",
-          );
-        }
+      if (signUpError) {
+        setError(
+          signUpError.message || "Failed to create account. Please try again.",
+        );
         setIsLoading(false);
         return;
       }
 
-      // Success - redirect to dashboard
-      router.push("/dashboard");
+      const userId = signUpData.user?.id;
+      // If a session exists (email confirmation disabled), insert employer_profile now
+      if (userId && signUpData.session) {
+        const { error: insertError } = await supabase
+          .from("employer_profile")
+          .insert({
+            user_id: userId,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            email_verified: false,
+            phone_number: formattedPhone,
+            state: formData.state,
+            request_fee: 0,
+            profile_image: null,
+            rating: 0,
+          });
+        if (insertError) {
+          // Non-blocking: log/ignore to keep flow smooth
+          console.error(
+            "Failed to insert employer_profile:",
+            insertError.message,
+          );
+        }
+      }
+
+      toast({ description: "Kindly verify your email before login." });
+      setIsLoading(false);
+      router.push("/login");
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
       setIsLoading(false);

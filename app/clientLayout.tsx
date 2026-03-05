@@ -8,6 +8,7 @@ import ChatBox from "@/components/chatbox";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { usePathname } from "next/navigation";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function ClientLayout({
   children,
@@ -42,6 +43,7 @@ export default function ClientLayout({
             {!isAuthPage && <ChatBox />}
           </>
         )}
+        <Toaster />
       </AuthProvider>
     </body>
   );

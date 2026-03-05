@@ -309,7 +309,7 @@ export default function FindAidPage() {
             )}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
             {!loading && filteredWorkers.length > 0 ? (
               filteredWorkers.map((worker) => (
                 <Card
@@ -339,13 +339,13 @@ export default function FindAidPage() {
 
                     {/* Worker Info */}
                     <div className="space-y-3 flex-grow">
-                      <div>
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                         <h3 className="font-semibold text-sm md:text-lg text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis">
                           {worker.name}
                         </h3>
-                        <p className="text-green-600 font-medium text-sm">
+                        <span className="text-green-600 font-medium text-xs md:text-sm whitespace-nowrap overflow-hidden text-ellipsis md:ml-2">
                           {worker.position}
-                        </p>
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2 text-sm text-gray-600">

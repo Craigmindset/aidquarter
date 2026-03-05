@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,17 +20,66 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate login process
-    setTimeout(() => {
-      // In a real app, you would validate credentials here
-      // For now, we'll just redirect to dashboard
+    try {
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (signInError) {
+        toast({ description: signInError.message });
+        setIsLoading(false);
+        return;
+      }
+
+      const { data: userRes } = await supabase.auth.getUser();
+      const user = userRes?.user;
+      if (user) {
+        const meta = user.user_metadata ?? {};
+        const firstName = (meta.first_name as string) ?? "";
+        const lastName = (meta.last_name as string) ?? "";
+        const phoneNumber = (meta.phone_number as string) ?? "";
+        const state = (meta.state as string) ?? "";
+
+        const { data: existing } = await supabase
+          .from("employer_profile")
+          .select("user_id")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (!existing) {
+          const { error: insertError } = await supabase
+            .from("employer_profile")
+            .insert({
+              user_id: user.id,
+              first_name: firstName,
+              last_name: lastName,
+              email: user.email,
+              email_verified: !!user.email_confirmed_at,
+              phone_number: phoneNumber,
+              state,
+              request_fee: 0,
+              profile_image: null,
+              rating: 0,
+            });
+          if (insertError) {
+            // Non-blocking: notify then continue
+            toast({ description: "Signed in. Profile will be created later." });
+          }
+        }
+      }
+
       router.push("/dashboard");
-    }, 1000);
+    } catch (err) {
+      toast({ description: "Unexpected error during sign in." });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
