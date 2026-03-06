@@ -360,10 +360,10 @@ export default function FindAidPage() {
                         <span>{worker.salaryRange}</span>
                       </div>
 
-                      <div className="hidden md:block space-y-1 text-sm text-gray-600">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4" />
-                          <span>
+                      <div className="hidden md:block text-xs text-gray-600">
+                        <div className="flex items-center gap-1 min-w-0">
+                          <MapPin className="h-3 w-3 shrink-0" />
+                          <span className="whitespace-nowrap overflow-hidden text-ellipsis">
                             Preferred Location: {worker.preferredWorkLocation}
                           </span>
                         </div>
