@@ -363,7 +363,9 @@ export default function FindAidPage() {
                       <div className="hidden md:block space-y-1 text-sm text-gray-600">
                         <div className="flex items-center gap-2">
                           <MapPin className="h-4 w-4" />
-                          <span>Preferred: {worker.preferredWorkLocation}</span>
+                          <span>
+                            Preferred Location: {worker.preferredWorkLocation}
+                          </span>
                         </div>
                       </div>
 
