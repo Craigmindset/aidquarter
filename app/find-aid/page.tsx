@@ -8,6 +8,7 @@ import { MapPin, DollarSign, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { cn } from "@/lib/utils";
 const CACHE_KEY = "find-aid:workers:v1";
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
@@ -28,7 +29,7 @@ type StaffProfileRow = {
   user_id: string | number;
   first_name: string | null;
   last_name: string | null;
-  status: string | null;
+  status: boolean | string | null;
   role: string | null;
   salary_range: string | null;
   state: string | null;
@@ -116,7 +117,12 @@ export default function FindAidPage() {
           id: row.user_id,
           name: (row.first_name ?? "").trim() || "Unnamed",
           image: row.profile_image ?? "/placeholder.svg?height=200&width=200",
-          status: row.status ?? "Available to work",
+          status:
+            typeof row.status === "boolean"
+              ? row.status
+                ? "Available to work"
+                : "Employed"
+              : "Available to work",
           position: row.role ?? "",
           salaryRange: row.salary_range ?? "",
           currentLocation: row.state ?? "",
@@ -332,7 +338,14 @@ export default function FindAidPage() {
                         height={200}
                         className="w-full h-32 md:h-48 object-cover rounded-lg"
                       />
-                      <Badge className="absolute top-2 right-2 bg-green-100 text-green-800 hover:bg-green-100 text-[10px] md:text-sm px-1 md:px-3 py-0 md:py-1 whitespace-nowrap">
+                      <Badge
+                        className={cn(
+                          "absolute top-2 right-2 text-[10px] md:text-sm px-1 md:px-3 py-0 md:py-1 whitespace-nowrap",
+                          worker.status === "Employed"
+                            ? "bg-gray-200 text-gray-700 hover:bg-gray-200"
+                            : "bg-green-100 text-green-800 hover:bg-green-100",
+                        )}
+                      >
                         {worker.status}
                       </Badge>
                     </div>
@@ -432,7 +445,14 @@ export default function FindAidPage() {
                   height={300}
                   className="w-full h-40 object-cover rounded-lg"
                 />
-                <Badge className="absolute top-4 right-4 bg-green-100 text-green-800 hover:bg-green-100 text-sm px-3 py-1">
+                <Badge
+                  className={cn(
+                    "absolute top-4 right-4 text-sm px-3 py-1",
+                    selectedWorker.status === "Employed"
+                      ? "bg-gray-200 text-gray-700 hover:bg-gray-200"
+                      : "bg-green-100 text-green-800 hover:bg-green-100",
+                  )}
+                >
                   {selectedWorker.status}
                 </Badge>
               </div>
