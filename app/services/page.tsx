@@ -131,7 +131,7 @@ export default function ServicesPage() {
 
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
                     <Button asChild className="bg-green-600 hover:bg-green-700">
-                      <Link href={`/findaid`}>Find</Link>
+                      <Link href="/find-aid">Find</Link>
                     </Button>
                   </div>
                 </div>
